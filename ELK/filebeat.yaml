@@ -1,0 +1,36 @@
+###################### Filebeat Configuration Example #########################
+
+# ============================== Filebeat inputs ===============================
+filebeat.inputs:
+- type: log
+  enabled: true
+  paths:
+    - /home/ubuntu/zeek-logs/*.log
+  json.keys_under_root: true
+  json.add_error_key: true
+  json.overwrite_keys: true
+
+# ============================== Filebeat modules ==============================
+filebeat.config.modules:
+  path: ${path.config}/modules.d/*.yml
+  reload.enabled: false
+
+# ======================= Elasticsearch template setting =======================
+setup.template.settings:
+  index.number_of_shards: 1
+  
+# =================================== Kibana ===================================
+setup.kibana:
+  host: "http://10.20.0.243:5601"
+
+# ------------------------------ Logstash Output -------------------------------
+output.logstash:
+  hosts: ["10.20.0.243:5044"]
+
+# ================================= Processors =================================
+processors:
+  - add_host_metadata:
+      when.not.contains.tags: forwarded
+  - add_cloud_metadata: ~
+  - add_docker_metadata: ~
+  - add_kubernetes_metadata: ~

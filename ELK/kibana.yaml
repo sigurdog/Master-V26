@@ -1,0 +1,28 @@
+# =================== System: Logging ===================
+logging:
+  appenders:
+    file:
+      type: file
+      fileName: /var/log/kibana/kibana.log
+      layout:
+        type: json
+  root:
+    appenders:
+      - default
+      - file
+
+server.host: "0.0.0.0"
+elasticsearch.hosts: ["https://localhost:9200"]
+
+elasticsearch.ssl.certificateAuthorities: ["/etc/kibana/certs/http_ca.crt"]
+
+elasticsearch.username: "kibana_system"
+elasticsearch.password: "<password>"
+
+# =================== System: Other ===================
+pid.file: /run/kibana/kibana.pid
+
+# =================== Encryption ===================
+xpack.encryptedSavedObjects.encryptionKey: 214a0e4b3c5be25a7d309d46a35002b6459bb6dab14a5caccdc95c91d86fe464
+xpack.reporting.encryptionKey: 9cb099f31a8f7d31340e2b49d9d29e84b018ecf32d1e598af9b44722a25b5bc0
+xpack.security.encryptionKey: 26957581b9839e39a257524297c63c59da2f259a943fc4af599a455b4f807e19

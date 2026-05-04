@@ -453,11 +453,6 @@ def main():
         break
 
 
-
-
-
-
-
     i16ErrorCode =  iec104_lib.IEC104Stop(myClient, ctypes.byref((tErrorValue)))
     if i16ErrorCode != 0:
         message = f"IEC 60870-5-104 Library API Function - IEC104Stop() failed: {i16ErrorCode} - {errorcodestring(i16ErrorCode)}, {tErrorValue.value} - {errorvaluestring(tErrorValue)}"
@@ -465,7 +460,6 @@ def main():
     else:
         message = f"IEC 60870-5-104 Library API Function - IEC104Stop() success"
         print(message)
-
 
 
     i16ErrorCode =  iec104_lib.IEC104Free(myClient, ctypes.byref((tErrorValue)))

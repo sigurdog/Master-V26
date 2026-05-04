@@ -1,0 +1,31 @@
+title: Invalid Information Object Address
+id: 02e00019-e0f4-4200-add3-f8a3542e5d9f
+description: Detects IEC-104 messages containing IOA values outside the valid configured range for the RTU.
+status: test
+author: sigurdog
+date: 2026/04/25
+
+logsource:
+  product: network
+  service: ids
+
+fields:
+  - id.orig_h
+  - id.resp_h
+  - ioa
+
+detection:
+  ioa_present:
+    ioa|exists: true
+
+  ioa_negative:
+    ioa|lt: 0
+
+  ioa_too_large:
+    ioa|gt: 2048
+    # Tilpass til RTUens faktiske IOA-range
+
+  condition: ioa_present and (ioa_negative or ioa_too_large)
+
+falsepositives:
+  - Misconfiguration

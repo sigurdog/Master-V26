@@ -1,0 +1,41 @@
+title: Source Impersonation
+id: eec64d18-00fe-4306-adaa-81a4be0550bd
+description: Detects communication attempts from unknown or
+  unauthorized master devices. RTUs should only communicate with a single
+  predefined master.
+status: test
+author: sigurdog
+date: 2026/04/19
+
+#references:
+ # - <URL>
+logsource:
+  product: network
+  service: ids
+
+fields:
+ - id.orig_h
+ - id.resp_h
+ - id.resp_p
+
+tags:
+  - attack.lateral-movement
+  - attack.credential-access
+
+detection:
+  iec104_port:
+    id.resp_p: 2404
+
+  has_asdu:
+    asdu_type|exists: true
+
+  known_master:
+    id.orig_h:
+      - "10.20.0.124" # SCADA Master
+
+  condition: iec104_port and has_asdu and not known_master
+
+falsepositives:
+  - Testing
+  - Legacy multi-master architecture (rare)
+

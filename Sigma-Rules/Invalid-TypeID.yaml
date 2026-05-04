@@ -1,0 +1,35 @@
+title: Invalid or Unexpected TypeID
+id: fd8b35e3-5a34-49ae-bb18-9299b5a5f564
+description: Detects IEC-104 traffic first with TypeID present, and a valid TypeID
+  in range 1-127. In this rule there are some specific allowed TypeIDs (1,3,5,9,11,13)
+  meaning any other then these will be unexpected.
+status: test
+author: sigurdog
+date: 2026/04/25
+
+logsource:
+  product: network
+  service: ids
+
+fields:
+  - id.orig_h
+  - id.resp_h
+  - asdu_type
+
+#tags:
+  -
+
+detection:
+  typeid_present:
+    asdu_type|exists: true
+
+  allowed_typeids:
+    asdu_type:
+      - M_ME_NC_1   # 13
+      - M_ME_TF_1   # 36
+      - C_CS_NA_1   # 103
+
+  condition: typeid_present and not allowed_typeids
+
+falsepositives:
+  - Misconfiguration

@@ -1,0 +1,35 @@
+title: Suspicious Cause of Transmission
+id: 22a8a4f4-cd47-4633-8c15-593790bf7ce0
+description: Detects IEC-104 frames with a COT value outside the normal set {1,3,6,7},
+  often used in spoofing or malformed attack traffic.
+status: test
+author: sigurdog
+date: 2026/04/25
+
+logsource:
+  product: network
+  service: ids
+
+fields:
+  - id.orig_h
+  - id.resp_h
+  - cot
+
+#tags:
+  -
+detection:
+  valid_cot:
+    cot:
+      - Cyc       #1
+      - Spont     #3
+      - Act       #6
+      - Actcon    #7
+      - Inrogen   #20
+
+  cot_field_present:
+    cot|exists: true
+
+  condition: cot_field_present and not valid_cot
+
+falsepositives:
+  - Unknown

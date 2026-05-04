@@ -1,0 +1,36 @@
+title: IEC-104 Over-Frequent Measurement Flooding (DoS)
+id: 640dcc60-9bbe-4a4c-872a-146dcb54ca12
+description: Detects abnormally high ASDU transmission frequency from an RTU, indicating
+  flooding, replay, or DoS conditions. Normal IEC-104 measurement rates are
+  20-100 ms for polling and 300-3000 ms for event-driven data.
+status: test
+author: sigurdog
+date: 2026/04/27
+
+logsource:
+  product: network
+  service: ids
+
+fields:
+  - source_ip
+  - destination_ip
+  - event_rate
+
+tags:
+  -
+
+detection:
+  from_rtu:
+    source_ip|in:
+      - "10.20.0.133" # SCADA slave (RTU)
+
+  # Trigger hvis mer enn 50 ASDUs/sek (tilpass terskel)
+  high_rate:
+    event_rate: ">50/s"
+
+  condition: from_rtu and high_rate
+
+falsepositives:
+  - RTU cold start bursts
+  - IDS hickup
+  - Misconfigured RTU sending anomalous sample rates

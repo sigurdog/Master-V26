@@ -1,0 +1,45 @@
+title: Timing and Replay Anomalies
+id: f9962d79-c12f-420c-9f43-c62d2951bd19
+description: Detects timing-related anomalies in IEC-104 communication, including
+  replayed ASDUs, decreasing or irregular sequence numbers, extremely low
+  inter-packet timing (ΔT), or abnormally high ASDU rate from an RTU. Often found
+  in replay attacks or Man-in-The-Middle attacks.
+status: test
+author: sigurdog
+# date: xxxx/xx/xx
+
+logsource:
+  product: network
+  service: ids
+
+fields:
+  - source_ip
+  - destination_ip
+  - iec104.seq
+  - iec104.delta_ms
+
+tags:
+  -
+
+  # (1) Sequence number decreased (should be monotonic)
+detection:
+  seq_decrease:
+    iec104.seq.anomaly: "decrease"     # supported by some ICS parsers
+                                       # alternativ: see below fallback
+
+  # (2) Small ΔT
+  fast_replay:
+    iec104.delta_ms|int: "<5"          # repeated frames too fast
+    iec104.repeated_asdu: true         # requires IDS dedupe field
+
+  # (3) More than X ASDUs per second from RTU
+  high_rate:
+    source_ip|in:
+      - "10.20.0.133" # SCADA slave (RTU)
+    event_rate: ">50/s"                # depends on backend (Elastic/Splunk)
+
+  condition: seq_decrease or fast_replay or high_rate
+
+falsepositives:
+  - Clock drift in virtualized ICS testbeds
+  - Burst traffic during RTU cold start

@@ -1,0 +1,36 @@
+title: IEC-104 Port Misuse or Abnormal TCP Session Patterns
+id: 03781f27-3b4c-4e36-8127-8827fbfda0e3
+description: Detects IEC-104-like traffic on ports that is not the default 2404
+status: test
+author: sigurdog
+date: 2026/04/22
+
+logsource:
+  category: network_traffic
+  product: network
+  service: ids
+
+fields:
+  - id.orig_h # Sender IP
+  - id.resp_h # Dest IP
+  - id.resp_p # Dest port
+
+tags:
+  - attack.t1040
+  - attack.t1046
+
+detection:
+  iec104_traffic:
+    id.orig_h: "10.20.0.124"      # Master IP
+    id.resp_h: "10.20.0.133"      # Slave IP
+
+  has_asdu:
+    asdu_type|exists: true
+
+  port_2404:
+    id.resp_p: 2404
+
+  condition: iec104_traffic and has_asdu and not port_2404
+
+falsepositives:
+  - Redundant or failover using alternative ports

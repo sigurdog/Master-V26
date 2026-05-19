@@ -1,7 +1,7 @@
 title: Non-IEC-104 Traffic on Port 2404
 id: 2f6b28fa-e2cb-4cf5-a4e6-9d7a56b77c21
-description: Detects TCP traffic on the IEC-104 default port 2404 that
-  does not have an ASDU type indicating protocol misuse, or scanning activity.
+description: Detects traffic on port 2404 that does not have
+  an ASDU type, indicating protocol misuse or scanning activity.
 status: test
 author: sigurdog
 date: 2026/04/25
@@ -24,4 +24,5 @@ detection:
 
 falsepositives:
   - Port scans
+  - Misconfiguration
   - Connection attempts without application data

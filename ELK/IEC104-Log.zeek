@@ -1,7 +1,6 @@
 @load base/protocols/conn
 
 module IEC104;
-
 export {
     redef enum Log::ID += { LOG };
 }

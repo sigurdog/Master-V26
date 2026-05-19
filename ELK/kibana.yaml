@@ -19,7 +19,7 @@ elasticsearch.ssl.certificateAuthorities: ["/etc/kibana/certs/http_ca.crt"]
 elasticsearch.username: "kibana_system"
 elasticsearch.password: "<password>"
 
-# =================== System: Other ===================
+# ================= System: Other ==================
 pid.file: /run/kibana/kibana.pid
 
 # =================== Encryption ===================

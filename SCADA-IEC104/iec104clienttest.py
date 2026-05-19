@@ -329,8 +329,6 @@ def main():
             sIEC104Config.sClientSet.sDebug.u32DebugOptions  =   0
 
 
-
-
         sIEC104Config.sClientSet.u16TotalNumberofConnection =   1
 
         arraypointer = (sClientConnectionParameters * sIEC104Config.sClientSet.u16TotalNumberofConnection)()

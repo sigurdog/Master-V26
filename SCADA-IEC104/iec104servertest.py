@@ -398,7 +398,6 @@ def main():
     sParameters = sIEC104Parameters()
 
 
-
     # Initialize IEC 60870-5-104 Server object parameters
     sParameters.eAppFlag          =  eApplicationFlag.APP_SERVER        # This is a IEC104 Server
     sParameters.ptReadCallback    = IEC104ReadCallback(cbRead)               # Read Callback

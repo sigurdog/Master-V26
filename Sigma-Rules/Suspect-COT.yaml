@@ -1,7 +1,8 @@
 title: Suspicious Cause of Transmission
 id: 22a8a4f4-cd47-4633-8c15-593790bf7ce0
-description: Detects IEC-104 frames with a COT value outside the normal set {1,3,6,7},
-  often used in spoofing or malformed attack traffic.
+description: Detects IEC-104 frames with a COT value outside the normal
+  set {1,3,6,7,20}, often used in spoofing or malformed attack traffic.
+  Spont (3) is removed from expected COT for testing purposes and will trigger alarms.
 status: test
 author: sigurdog
 date: 2026/04/25
@@ -15,13 +16,11 @@ fields:
   - id.resp_h
   - cot
 
-#tags:
-  -
 detection:
   valid_cot:
     cot:
       - Cyc       #1
-      - Spont     #3
+      #- Spont     #3, usually normal but removed for testing purposes
       - Act       #6
       - Actcon    #7
       - Inrogen   #20

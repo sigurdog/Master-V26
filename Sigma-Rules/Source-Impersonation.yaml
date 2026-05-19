@@ -7,8 +7,6 @@ status: test
 author: sigurdog
 date: 2026/04/19
 
-#references:
- # - <URL>
 logsource:
   product: network
   service: ids
@@ -17,10 +15,6 @@ fields:
  - id.orig_h
  - id.resp_h
  - id.resp_p
-
-tags:
-  - attack.lateral-movement
-  - attack.credential-access
 
 detection:
   iec104_port:
